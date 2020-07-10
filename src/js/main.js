@@ -33,15 +33,20 @@ let shows = [];
 //LLamada a la Api
 function searchShow() {
   const valueInput = inputSearch.value;
-  fetch(`http://api.tvmaze.com/search/shows?q=${valueInput}`)
-    .then((response) => response.json())
-    .then((data) => {
-      shows = data.map((show) => {
-        //Guardamos con Map el campo Show que nos trae la Api
-        return show.show;
+  if (!valueInput) {
+    mainCards.innerHTML =
+      '<h2 class="error">No has introducido ninguna serie :-(</h2>';
+  } else {
+    fetch(`http://api.tvmaze.com/search/shows?q=${valueInput}`)
+      .then((response) => response.json())
+      .then((data) => {
+        shows = data.map((show) => {
+          //Guardamos con Map el campo Show que nos trae la Api
+          return show.show;
+        });
+        printShows(shows);
       });
-      printShows(shows);
-    });
+  }
 }
 
 //Pinta los datos en el main
@@ -108,7 +113,6 @@ const saveLocalStorage = () => {
   localStorage.setItem('favorite', JSON.stringify(favoritesShows));
 };
 
-
 //Función que pinta los favoritos
 const printFavorite = (ev) => {
   const listFavorite = document.querySelector('.js-listFavorite');
@@ -121,7 +125,6 @@ const printFavorite = (ev) => {
 //Eventos escuchadores
 iconSearch.addEventListener('click', listener);
 title.addEventListener('click', changeHeader); //Evento que cambia el header al Initial
-
 
 //Función para guardar los favoritos en el array
 /* const addArrFavorite = (ev) => {
