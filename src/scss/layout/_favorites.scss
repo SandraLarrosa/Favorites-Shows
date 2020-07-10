@@ -5,15 +5,67 @@
   position: fixed;
   left: 0px;
   top: 0px;
-  width: 100px;
+  width: 150px;
   height: 100vh;
   background-color: #1d1b38d8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   @media all and (min-width: 768px) {
-    width: 130px;
+    width: 250px;
   }
   @media all and (min-width: 1200px) {
-    width: 200px;
+    width: 300px;
+  }
+
+  & .navFavorite {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+
+    & .favorite__title {
+      text-align: center;
+      margin-top: 30px;
+      color: #e79cc2;
+      font-size: 14px;
+      font-family: 'Cheveuxdange', cursive;
+
+      @media all and (min-width: 768px) {
+        font-size: 18px;
+      }
+
+      @media all and (min-width: 1200px) {
+        font-size: 22px;
+      }
+    }
+    & .botton__delete {
+      cursor: pointer;
+      width: 100px;
+      align-items: center;
+      text-align: center;
+      border: 1px solid #01a9b4;
+      border-radius: 20px;
+      padding: 5px;
+      font-size: 8px;
+      font-family: 'Source Sans Pro', sans-serif;
+      margin-bottom: 15px;
+      margin-top: 15px;
+      background-color: #01a9b4;
+      color: whitesmoke;
+
+      @media all and (min-width: 768px) {
+        font-size: 10px;
+        width: 120px;
+      }
+
+      @media all and (min-width: 1200px) {
+        font-size: 12px;
+        width: 150px;
+      }
+    }
   }
 }
 /* CLASE CUANDO LE DAMOS A BUSCAR */
@@ -33,16 +85,10 @@
     width: 300px;
     top: 144px;
   }
-}
-
-.favorite {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
 
   & .favorite__title {
     text-align: center;
+    margin-top: 30px;
     color: #e79cc2;
     font-size: 14px;
     font-family: 'Cheveuxdange', cursive;
@@ -55,32 +101,54 @@
       font-size: 22px;
     }
   }
+  .botton__delete {
+    cursor: pointer;
+    width: 100px;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #01a9b4;
+    border-radius: 20px;
+    padding: 5px;
+    font-size: 8px;
+    font-family: 'Source Sans Pro', sans-serif;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    background-color: #01a9b4;
+    color: whitesmoke;
+
+    @media all and (min-width: 768px) {
+      font-size: 10px;
+      width: 120px;
+    }
+
+    @media all and (min-width: 1200px) {
+      font-size: 12px;
+      width: 150px;
+    }
+  }
 }
 
-.botton__delete {
-  cursor: pointer;
-  border: 1px solid #01a9b4;
-  border-radius: 20px;
-  padding: 5px;
-  font-size: 8px;
-  font-family: 'Source Sans Pro', sans-serif;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  background-color: #01a9b4;
-  color: whitesmoke;
+.favorite__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  margin-top: 100px;
 
   @media all and (min-width: 768px) {
-    font-size: 10px;
+    margin-top: 120px;
   }
 
-  @media all and (min-width: 1200px) {
-    font-size: 12px;
-  }
 }
 
 .favorite__list--card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid white;
+  background-color: rgba(245, 245, 245, 0.301);
+  border-radius: 5px;
+  margin: 5px;
 
   & .favorite__card__img {
     cursor: pointer;
@@ -100,6 +168,32 @@
   & .favorite__title__list {
     color: white;
     font-size: 8px;
+    padding: 8px;
+    word-wrap: break-word;
+    width: 152px;
+
+    @media all and (min-width: 768px) {
+      font-size: 12px;
+    }
+    @media all and (min-width: 1200px) {
+      font-size: 14px;
+    }
+  }
+
+  & .fa-times-circle {
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 3px;
+    margin-left: 14px;
+    font-size: 12px;
+    color: #e79cc2;
+
+    @media all and (min-width: 768px) {
+      font-size: 16px;
+    }
+    @media all and (min-width: 1200px) {
+      font-size: 19px;
+    }
   }
 }
 

@@ -74,7 +74,9 @@ const addFavorite = (ev) => {
   const cardShow = ev.currentTarget;
   const cardShowId = parseInt(cardShow.id);
   const showElement = favoritesShows.find((show) => show.id === cardShowId);
-  const indexCard = favoritesShows.indexOf(cardShowId);
+  const showElementId = favoritesShows.findIndex(
+    (show) => show.id === cardShowId
+  );
   if (showElement === undefined) {
     cardShow.classList.add('card__favoriteAdd');
     for (const show of shows) {
@@ -91,14 +93,35 @@ const addFavorite = (ev) => {
     }
   } else {
     console.log('Me han quitado de favoritos');
-    favoritesShows.splice(indexCard, 1);
+    favoritesShows.splice(showElementId, 1);
     cardShow.classList.remove('card__favoriteAdd');
   }
 
   console.log(favoritesShows);
-
-  printFavorite(ev);
+  saveLocalStorage();
+  /* printFavorite(ev); */
 };
+
+//LocalStorage
+
+const saveLocalStorage = () => {
+  localStorage.setItem('favorite', JSON.stringify(favoritesShows));
+};
+
+
+//Función que pinta los favoritos
+const printFavorite = (ev) => {
+  const listFavorite = document.querySelector('.js-listFavorite');
+  const cardShow = ev.currentTarget;
+  for (const favorite of favoritesShows) {
+    listFavorite.innerHTML += `<li class="favorite__list--card"><title class="favorite__title__list">${favorite.textContent}</title><img class="favorite__card__img" src="https://vignette.wikia.nocookie.net/doblaje/images/6/65/250px-Friends_titles.jpg/revision/latest?cb=20171119185557&path-prefix=es" alt=""/></li>`;
+  }
+};
+
+//Eventos escuchadores
+iconSearch.addEventListener('click', listener);
+title.addEventListener('click', changeHeader); //Evento que cambia el header al Initial
+
 
 //Función para guardar los favoritos en el array
 /* const addArrFavorite = (ev) => {
@@ -130,17 +153,3 @@ const addFavorite = (ev) => {
     cardShow.classList.remove('card__favoriteAdd');
   }
 }; */
-
-//Función que pinta los favoritos
-const printFavorite = (ev) => {
-  const listFavorite = document.querySelector('.js-listFavorite');
-  const cardShow = ev.currentTarget;
-  const indexCard = favoritesShows.indexOf(cardShow);
-  for (const favorite of favoritesShows) {
-    listFavorite.innerHTML += `<li class="favorite__list--card"><title class="favorite__title__list">${favorite.textContent}</title><img class="favorite__card__img" src="https://vignette.wikia.nocookie.net/doblaje/images/6/65/250px-Friends_titles.jpg/revision/latest?cb=20171119185557&path-prefix=es" alt=""/></li>`;
-  }
-};
-
-//Eventos escuchadores
-iconSearch.addEventListener('click', listener);
-title.addEventListener('click', changeHeader); //Evento que cambia el header al Initial
