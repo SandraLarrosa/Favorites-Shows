@@ -72,6 +72,7 @@ const printFavorites = () => {
 };
 
 //LISTENERS CARDS SHOWS
+
 const listenerCards = () => {
   const cards = document.querySelectorAll('.js-cards');
   for (const card of cards) {
@@ -114,9 +115,12 @@ const addFavorite = (ev) => {
   saveLocalStorage();
 };
 
-//Función que cambiar el color de la card Show
 const changeColorCard = (ev) => {
-  if (favorite.classList.contains('card__favoriteAdd')) {
+  const show = ev.currentTarget;
+  const showId = parseInt(show.id);
+  const showElement = favoritesShows.find((show) => show.id === showId);
+
+  if (showElement === undefined) {
     show.classList.remove('card__favoriteAdd');
   } else {
     show.classList.add('card__favoriteAdd');
@@ -124,7 +128,21 @@ const changeColorCard = (ev) => {
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
   }
+  printFavoritesLS();
 };
+
+//Función que cambiar el color de la card Show
+/* const changeColorCard = (ev) => {
+  const show = ev.currentTarget;
+  if (show.classList.contains('card__favoriteAdd')) {
+    show.classList.remove('card__favoriteAdd');
+  } else {
+    show.classList.add('card__favoriteAdd');
+    asideFavorite.classList.remove('hidden', 'menu');
+    mainCards.classList.remove('content_cards');
+    mainCards.classList.add('content__cardsFavorite');
+  }
+}; */
 
 //Función que pinta los favoritos al principio
 const printFavoritesLS = () => {
@@ -132,7 +150,6 @@ const printFavoritesLS = () => {
     asideFavorite.classList.remove('hidden', 'menu');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
-
     printFavorites();
   }
 };
@@ -145,6 +162,7 @@ const removeAllFavorites = () => {
   asideFavorite.classList.add('hidden', 'menu');
   mainCards.classList.add('content_cards');
   mainCards.classList.remove('content__cardsFavorite');
+
   favoritesShows = [];
   console.log(favoritesShows);
 };
