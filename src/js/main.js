@@ -127,6 +127,15 @@ const changeColorCard = (ev) => {
   }
 };
 
+const printFavoritesLS = () => {
+  if (favoritesShows.length > 0) {
+    asideFavorite.classList.remove('hidden', 'menu');
+    mainCards.classList.remove('content_cards');
+    mainCards.classList.add('content__cardsFavorite');
+    printFavorites();
+  }
+};
+
 //LocalStorage
 const saveLocalStorage = () => {
   localStorage.setItem('favorite', JSON.stringify(favoritesShows));
@@ -138,6 +147,7 @@ const getFromLocalStorage = () => {
   if (favoritesShows === null) {
     favoritesShows = [];
   }
+  printFavoritesLS();
 };
 
 //Funciones al inicio
