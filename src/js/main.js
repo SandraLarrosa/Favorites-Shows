@@ -68,32 +68,56 @@ const listenerCards = () => {
 //Array que guarda los favoritos
 let favoritesShows = [];
 
+const asideFavorite = document.querySelector('.js-asideFavorite');
 //Función que añade a favoritos y cambia el color cuando lo añadimos o lo quita de favoritos cuando lo volvemos a pulsar
 const addFavorite = (ev) => {
-  addArrFavorite(ev);
+  const cardShow = ev.currentTarget;
+  const cardShowId = parseInt(cardShow.id);
+  const showElement = favoritesShows.find((show) => show.id === cardShowId);
+  const indexCard = favoritesShows.indexOf(cardShowId);
+  if (showElement === undefined) {
+    cardShow.classList.add('card__favoriteAdd');
+    for (const show of shows) {
+      if (cardShowId === show.id) {
+        favoritesShows.push(show);
+        if (asideFavorite.classList.contains('hidden')) {
+          asideFavorite.classList.remove('hidden', 'menuInitial');
+          asideFavorite.classList.add('menu');
+          mainCards.classList.remove('content_cards');
+          mainCards.classList.add('content__cardsFavorite');
+        }
+        console.log('Me han añadadido en favoritos');
+      }
+    }
+  } else {
+    console.log('Me han quitado de favoritos');
+    favoritesShows.splice(indexCard, 1);
+    cardShow.classList.remove('card__favoriteAdd');
+  }
+
   console.log(favoritesShows);
+
+  printFavorite(ev);
 };
 
 //Función para guardar los favoritos en el array
-const addArrFavorite = (ev) => {
-  addClassFavorites(ev);
-  printFavorite(ev);
+/* const addArrFavorite = (ev) => {
   const cardShow = ev.currentTarget;
   const indexCard = favoritesShows.indexOf(cardShow);
   if (indexCard === -1) {
-    favoritesShows.push(cardShow);
+    /*     favoritesShows.push(cardShow);
     console.log('Me han añadadido en favoritos');
   } else {
     console.log('Me han quitado de favoritos');
     favoritesShows.splice(indexCard, 1);
   }
-};
+}; */
 
 //Función que cambia las clases cuando haces click a una tarjeta para añadirla a favoritos
-const addClassFavorites = (ev) => {
+/* const addClassFavorites = (ev) => {
   const cardShow = ev.currentTarget;
   const indexCard = favoritesShows.indexOf(cardShow);
-  const asideFavorite = document.querySelector('.js-asideFavorite');
+
   if (indexCard === -1) {
     cardShow.classList.add('card__favoriteAdd');
     if (asideFavorite.classList.contains('hidden')) {
@@ -105,7 +129,7 @@ const addClassFavorites = (ev) => {
   } else {
     cardShow.classList.remove('card__favoriteAdd');
   }
-};
+}; */
 
 //Función que pinta los favoritos
 const printFavorite = (ev) => {
