@@ -53,8 +53,10 @@ function searchShow() {
 const printShows = (shows) => {
   mainCards.innerHTML = '';
   for (const show of shows) {
+    const showElement = favoritesShows.find((favShow) => favShow.id === show.id); //Devuelve undefined si no está en el Array de Favoritos
+    const favColor = showElement === undefined ? '' : 'card__favoriteAdd'; //Ternario para comprobar si la card a pintar está en favoritos
     if (show.image !== null) {
-      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
+      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     } else {
       mainCards.innerHTML += `<article class="card__show js-cards"><img class="card__show--img" src="https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     }
@@ -131,18 +133,6 @@ const changeColorCard = (ev) => {
   printFavoritesLS();
 };
 
-//Función que cambiar el color de la card Show
-/* const changeColorCard = (ev) => {
-  const show = ev.currentTarget;
-  if (show.classList.contains('card__favoriteAdd')) {
-    show.classList.remove('card__favoriteAdd');
-  } else {
-    show.classList.add('card__favoriteAdd');
-    asideFavorite.classList.remove('hidden', 'menu');
-    mainCards.classList.remove('content_cards');
-    mainCards.classList.add('content__cardsFavorite');
-  }
-}; */
 
 //Función que pinta los favoritos al principio
 const printFavoritesLS = () => {
