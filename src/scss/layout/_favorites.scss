@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
+z-index: 1;
   @media all and (min-width: 768px) {
     width: 250px;
   }
@@ -69,7 +69,7 @@
   }
 }
 /* CLASE CUANDO LE DAMOS A BUSCAR */
-.menu {
+/* .menu {
   animation: slide-in-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   position: fixed;
   left: 0px;
@@ -138,18 +138,19 @@
       }
     }
   }
-}
+} */
 
 .favorite__content {
   width: 100%;
   display: flex;
   flex-direction: column;
   overflow: auto;
-  margin-top: 100px;
+  margin-top: 120px;
 
   @media all and (min-width: 768px) {
-    margin-top: 120px;
+    margin-top: 160px;
   }
+
 }
 
 .favorite__list--card {

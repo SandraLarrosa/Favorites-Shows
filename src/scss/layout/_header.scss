@@ -9,31 +9,36 @@
 /* Header en la busqueda */
 .header {
   width: 100%;
-  height: 160px;
+  height: 120px;
   background: url('../../assets/images/vintage.jpg') no-repeat center;
   background-size: cover;
   top: 0;
   position: fixed;
   z-index: 1;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  @media all and (min-width: 768px) {
+    height: 160px;
+  }
+
 }
 
 .content__title {
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  font-size: 26px;
+  font-size: 20px;
   font-family: 'Cheveuxdange', cursive;
   font-weight: bold;
   color: whitesmoke;
   animation: text-focus-in 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
-  margin-left: 100px;
 
   @media all and (min-width: 768px) {
     font-size: 44px;
-    margin-left: auto;
   }
 }
 
@@ -83,4 +88,55 @@
   background-size: cover;
   top: 0;
   position: fixed;
+  
+
+  & .content__title {
+    cursor: pointer;
+    text-align: right;
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'Cheveuxdange', cursive;
+    font-weight: bold;
+    color: whitesmoke;
+    animation: text-focus-in 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+  
+    @media all and (min-width: 768px) {
+      font-size: 44px;
+    }
+
+    @media all and (min-width: 1200px) {
+      text-align: center;
+    }
+
+    & .content_search {
+      display: flex;
+      width: 160px;
+      border-radius: 10px;
+      border: 1px solid rgb(204, 188, 219);
+      background-color: rgb(240, 239, 236);
+      margin-left: 120px;
+
+      @media all and (min-width: 768px) {
+        width: 260px;
+      }
+    }
+    
+    & .input_search {
+      border: inherit;
+      background-color: whitesmoke;
+      align-items: center;
+      height: 28px;
+      width: 220px;
+      border-radius: 10px;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-weight: bold;
+    }
+    
+    & .icon__search {
+      width: 26px;
+      height: 29px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+  }
 }
