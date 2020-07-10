@@ -74,6 +74,7 @@ const listenerCards = () => {
 let favoritesShows = [];
 
 const asideFavorite = document.querySelector('.js-asideFavorite');
+const listFavorite = document.querySelector('.js-listFavorite');
 //Función que añade a favoritos y cambia el color cuando lo añadimos o lo quita de favoritos cuando lo volvemos a pulsar
 const addFavorite = (ev) => {
   const cardShow = ev.currentTarget;
@@ -87,6 +88,7 @@ const addFavorite = (ev) => {
     for (const show of shows) {
       if (cardShowId === show.id) {
         favoritesShows.push(show);
+        listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="${show.image.medium}" alt="${show.name}"/><h4 class="favorite__title__list">${show.name}</h4><i class="far fa-times-circle"></i>`;
         if (asideFavorite.classList.contains('hidden')) {
           asideFavorite.classList.remove('hidden', 'menuInitial');
           asideFavorite.classList.add('menu');
@@ -100,11 +102,12 @@ const addFavorite = (ev) => {
     console.log('Me han quitado de favoritos');
     favoritesShows.splice(showElementId, 1);
     cardShow.classList.remove('card__favoriteAdd');
+    listFavorite.innerHTML += '';
   }
 
   console.log(favoritesShows);
   saveLocalStorage();
-  /* printFavorite(ev); */
+  /*  printFavorite(ev); */
 };
 
 //LocalStorage
@@ -113,46 +116,22 @@ const saveLocalStorage = () => {
   localStorage.setItem('favorite', JSON.stringify(favoritesShows));
 };
 
-//Función que pinta los favoritos
-const printFavorite = (ev) => {
-  const listFavorite = document.querySelector('.js-listFavorite');
-  const cardShow = ev.currentTarget;
-  for (const favorite of favoritesShows) {
-    listFavorite.innerHTML += `<li class="favorite__list--card"><title class="favorite__title__list">${favorite.textContent}</title><img class="favorite__card__img" src="https://vignette.wikia.nocookie.net/doblaje/images/6/65/250px-Friends_titles.jpg/revision/latest?cb=20171119185557&path-prefix=es" alt=""/></li>`;
-  }
-};
 
 //Eventos escuchadores
 iconSearch.addEventListener('click', listener);
 title.addEventListener('click', changeHeader); //Evento que cambia el header al Initial
 
-//Función para guardar los favoritos en el array
-/* const addArrFavorite = (ev) => {
-  const cardShow = ev.currentTarget;
-  const indexCard = favoritesShows.indexOf(cardShow);
-  if (indexCard === -1) {
-    /*     favoritesShows.push(cardShow);
-    console.log('Me han añadadido en favoritos');
-  } else {
-    console.log('Me han quitado de favoritos');
-    favoritesShows.splice(indexCard, 1);
-  }
-}; */
-
-//Función que cambia las clases cuando haces click a una tarjeta para añadirla a favoritos
-/* const addClassFavorites = (ev) => {
-  const cardShow = ev.currentTarget;
-  const indexCard = favoritesShows.indexOf(cardShow);
-
-  if (indexCard === -1) {
-    cardShow.classList.add('card__favoriteAdd');
-    if (asideFavorite.classList.contains('hidden')) {
-      asideFavorite.classList.remove('hidden', 'menuInitial');
-      asideFavorite.classList.add('menu');
-      mainCards.classList.remove('content_cards');
-      mainCards.classList.add('content__cardsFavorite');
+//Función que lee el localStorage y pinta los favoritos
+const getFromLocalStorage = () => {
+  const data = JSON.parse(localStorage.getItem('favorite'));
+  console.log(data);
+  if (data !== favoritesShows) {
+    asideFavorite.classList.remove('hidden', 'menu');
+    asideFavorite.classList.add('menuInitial');
+    for (const favorite of data) {
+      listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle"></i>`;
     }
-  } else {
-    cardShow.classList.remove('card__favoriteAdd');
   }
-}; */
+};
+
+getFromLocalStorage();
