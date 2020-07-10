@@ -116,8 +116,7 @@ const addFavorite = (ev) => {
 
 //Función que cambiar el color de la card Show
 const changeColorCard = (ev) => {
-  const show = ev.currentTarget;
-  if (show.classList.contains('card__favoriteAdd')) {
+  if (favorite.classList.contains('card__favoriteAdd')) {
     show.classList.remove('card__favoriteAdd');
   } else {
     show.classList.add('card__favoriteAdd');
