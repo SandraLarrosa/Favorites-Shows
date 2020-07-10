@@ -67,7 +67,7 @@ const printFavorites = () => {
   const listFavorite = document.querySelector('.js-listFavorite');
   listFavorite.innerHTML = '';
   for (const favorite of favoritesShows) {
-    listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle"></i>`;
+    listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
   }
 };
 
@@ -85,7 +85,7 @@ let favoritesShows = [];
 
 const asideFavorite = document.querySelector('.js-asideFavorite');
 
-//FUNCION LISTENER
+//FUNCION LISTENER DEL BUSCADOR
 const handleFavorites = (ev) => {
   addFavorite(ev);
   changeColorCard(ev);
@@ -126,27 +126,55 @@ const changeColorCard = (ev) => {
   }
 };
 
+//Función que pinta los favoritos al principio
 const printFavoritesLS = () => {
   if (favoritesShows.length > 0) {
     asideFavorite.classList.remove('hidden', 'menu');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
+
     printFavorites();
   }
 };
 
+//FUNCION PARA ELIMINAR TODOS LOS FAVORITOS A LA VEZ
+const buttonRemoveAll = document.querySelector('.js-buttonRemoveAll');
+
+const removeAllFavorites = () => {
+  localStorage.removeItem('favorite');
+  asideFavorite.classList.add('hidden', 'menu');
+  mainCards.classList.add('content_cards');
+  mainCards.classList.remove('content__cardsFavorite');
+  favoritesShows = [];
+  console.log(favoritesShows);
+};
+
+buttonRemoveAll.addEventListener('click', removeAllFavorites);
+
+//FUNCION PARA ELIMINAR INDIVIDUALMENTE LOS ELEMENTOS DE LA LISTA DE FAVORITOS
+const removeFavorite = (ev) => {};
+
+const listenersButtonFavorites = () => {
+  const buttonsRemove = document.querySelectorAll('.js-buttonRemove');
+  for (const button of buttonsRemove) {
+    button.addEventListener('click', removeFavorite);
+  }
+};
+
 //LocalStorage
+//Guarda datos de favoritos en LS
 const saveLocalStorage = () => {
   localStorage.setItem('favorite', JSON.stringify(favoritesShows));
 };
 
-//Función que lee el localStorage
+//Función que lee el localStorage y Pinta Los favoritos en Pantalla
 const getFromLocalStorage = () => {
   favoritesShows = JSON.parse(localStorage.getItem('favorite'));
   if (favoritesShows === null) {
     favoritesShows = [];
   }
   printFavoritesLS();
+  listenersButtonFavorites();
 };
 
 //Funciones al inicio
