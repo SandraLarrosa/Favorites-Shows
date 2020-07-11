@@ -10,10 +10,8 @@ const mainCards = document.querySelector('.js-content'); //Main donde se pintan 
 const imgPlaceHolder =
   'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
 
-//Array que guarda la búsqueda de las series
-let shows = [];
-//Array que guarda los favoritos
-let favoritesShows = [];
+let shows = []; //Array que guarda la búsqueda de las series
+let favoritesShows = []; //Array que guarda los favoritos
 
 //Función escuchadora del icono search
 const listener = (ev) => {
@@ -36,23 +34,29 @@ const changeHeader = (ev) => {
 };
 
 //LLamada a la Api
-function searchShow() {
+const searchShow = () => {
   const valueInput = inputSearch.value;
   if (!valueInput) {
     mainCards.innerHTML =
       '<h2 class="error">No has introducido ninguna serie</h2>';
   } else {
-    fetch(`http://api.tvmaze.com/search/shows?q=${valueInput}`)
-      .then((response) => response.json())
-      .then((data) => {
-        shows = data.map((show) => {
-          //Guardamos con Map el campo Show que nos trae la Api
-          return show.show;
-        });
-        printShows(shows);
-      });
+    conectApi();
   }
-}
+};
+
+//Función que llama a la Api
+const conectApi = () => {
+  const valueInput = inputSearch.value;
+  fetch(`http://api.tvmaze.com/search/shows?q=${valueInput}`)
+    .then((response) => response.json())
+    .then((data) => {
+      shows = data.map((show) => {
+        //Guardamos con Map el campo Show que nos trae la Api
+        return show.show;
+      });
+      printShows(shows);
+    });
+};
 
 //Función que Pinta los datos en el main
 const printShows = (shows) => {
@@ -201,6 +205,16 @@ const getFromLocalStorage = () => {
   }
   printFavoritesLS();
 };
+
+//Tecla Intro del teclado para buscar
+
+const inputKey = (ev) => {
+  if (event.keyCode == 13) {
+    listener(ev);
+  }
+};
+
+inputSearch.addEventListener('keyup', inputKey);
 
 //Funciones al inicio
 getFromLocalStorage(); //Trae los datos del LocalStorage al cargar la página
