@@ -53,7 +53,9 @@ function searchShow() {
 const printShows = (shows) => {
   mainCards.innerHTML = '';
   for (const show of shows) {
-    const showElement = favoritesShows.find((favShow) => favShow.id === show.id); //Devuelve undefined si no está en el Array de Favoritos
+    const showElement = favoritesShows.find(
+      (favShow) => favShow.id === show.id
+    ); //Devuelve undefined si no está en el Array de Favoritos
     const favColor = showElement === undefined ? '' : 'card__favoriteAdd'; //Ternario para comprobar si la card a pintar está en favoritos
     if (show.image !== null) {
       mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
@@ -61,7 +63,7 @@ const printShows = (shows) => {
       mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" src="https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     }
   }
-  console.log(shows)
+  console.log(shows);
   listenerCards();
 };
 
@@ -70,7 +72,11 @@ const printFavorites = () => {
   const listFavorite = document.querySelector('.js-listFavorite');
   listFavorite.innerHTML = '';
   for (const favorite of favoritesShows) {
-    listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
+    if (favorite.image !== null) {
+      listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
+    } else {
+      listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
+    }
   }
 };
 
@@ -118,6 +124,7 @@ const addFavorite = (ev) => {
   saveLocalStorage();
 };
 
+//Función que pinta las cards si están en favoritos. Cambiando estilos a la card y al main
 const changeColorCard = (ev) => {
   const show = ev.currentTarget;
   const showId = parseInt(show.id);
@@ -134,13 +141,13 @@ const changeColorCard = (ev) => {
   printFavoritesLS();
 };
 
-
 //Función que pinta los favoritos al principio
 const printFavoritesLS = () => {
   if (favoritesShows.length > 0) {
     asideFavorite.classList.remove('hidden', 'menu');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
+
     printFavorites();
   }
 };
@@ -149,6 +156,7 @@ const printFavoritesLS = () => {
 const buttonRemoveAll = document.querySelector('.js-buttonRemoveAll');
 
 const removeAllFavorites = () => {
+
   localStorage.removeItem('favorite');
   asideFavorite.classList.add('hidden', 'menu');
   mainCards.classList.add('content_cards');
