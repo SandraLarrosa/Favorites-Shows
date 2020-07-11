@@ -5,7 +5,13 @@ const inputSearch = document.querySelector('.js-input'); //Input
 const iconSearch = document.querySelector('.js-search'); //Icon de búsqueda
 const title = document.querySelector('.js-title'); //Titulo Página que lleva al inicio
 const header = document.querySelector('.js-header');
+const asideFavorite = document.querySelector('.js-asideFavorite'); //Aside de los favoritos
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
+const imgPlaceHolder =
+  'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
+
+let shows = []; //Array que guarda la búsqueda de las series
+let favoritesShows = []; //Array que guarda los favoritos
 
 //Función escuchadora del icono search
 const listener = (ev) => {
@@ -27,27 +33,30 @@ const changeHeader = (ev) => {
   header.classList.add('headerInitial');
 };
 
-//Array que guarda la búsqueda de las series
-let shows = [];
-
 //LLamada a la Api
-function searchShow() {
+const searchShow = () => {
   const valueInput = inputSearch.value;
   if (!valueInput) {
     mainCards.innerHTML =
-      '<h2 class="error">No has introducido ninguna serie</h2>';
+      '<div class="contain__error"><h2 class="error">¡No has introducido ninguna serie!</h2><p class="text__error">No enfades al gatete y busca una serie para hacerle feliz</p><img class="gif__cat" src="https://media.giphy.com/media/c8NspwwVxwAiA/giphy.gif" alt="gif gatete"/></div>';
   } else {
-    fetch(`http://api.tvmaze.com/search/shows?q=${valueInput}`)
-      .then((response) => response.json())
-      .then((data) => {
-        shows = data.map((show) => {
-          //Guardamos con Map el campo Show que nos trae la Api
-          return show.show;
-        });
-        printShows(shows);
-      });
+    conectApi();
   }
-}
+};
+
+//Función que llama a la Api
+const conectApi = () => {
+  const valueInput = inputSearch.value;
+  fetch(`http://api.tvmaze.com/search/shows?q=${valueInput}`)
+    .then((response) => response.json())
+    .then((data) => {
+      shows = data.map((show) => {
+        //Guardamos con Map el campo Show que nos trae la Api
+        return show.show;
+      });
+      printShows(shows);
+    });
+};
 
 //Función que Pinta los datos en el main
 const printShows = (shows) => {
@@ -60,10 +69,9 @@ const printShows = (shows) => {
     if (show.image !== null) {
       mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     } else {
-      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" src="https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
+      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     }
   }
-  console.log(shows);
   listenerCards();
 };
 
@@ -73,11 +81,13 @@ const printFavorites = () => {
   listFavorite.innerHTML = '';
   for (const favorite of favoritesShows) {
     if (favorite.image !== null) {
-      listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
+      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
     } else {
-      listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
+      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" src="${imgPlaceHolder}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
     }
   }
+  listenersButtonFavorites();
+  /* printShows(shows); */
 };
 
 //LISTENERS CARDS SHOWS
@@ -89,17 +99,12 @@ const listenerCards = () => {
   }
 };
 
-/* FAVORITOS */
-//Array que guarda los favoritos
-let favoritesShows = [];
-
-const asideFavorite = document.querySelector('.js-asideFavorite');
-
 //FUNCION LISTENER DEL BUSCADOR
 const handleFavorites = (ev) => {
   addFavorite(ev);
   changeColorCard(ev);
   printFavorites();
+  listenersButtonFavorites();
 };
 
 //Función que añade a favoritos el elemento seleccionado y lo quita
@@ -113,14 +118,11 @@ const addFavorite = (ev) => {
     for (const show of shows) {
       if (showId === show.id) {
         favoritesShows.push(show);
-        console.log(`Me han añadadido ${show.name}`);
       }
     }
   } else {
     favoritesShows.splice(showElementId, 1);
-    console.log(`Me han eliminado ${show.name}`);
   }
-  console.log(favoritesShows);
   saveLocalStorage();
 };
 
@@ -134,7 +136,7 @@ const changeColorCard = (ev) => {
     show.classList.remove('card__favoriteAdd');
   } else {
     show.classList.add('card__favoriteAdd');
-    asideFavorite.classList.remove('hidden', 'menu');
+    asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
   }
@@ -144,32 +146,43 @@ const changeColorCard = (ev) => {
 //Función que pinta los favoritos al principio
 const printFavoritesLS = () => {
   if (favoritesShows.length > 0) {
-    asideFavorite.classList.remove('hidden', 'menu');
+    asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
-
-    printFavorites();
+  } else {
+    asideFavorite.classList.add('hidden');
+    mainCards.classList.add('content_cards');
+    mainCards.classList.remove('content__cardsFavorite');
   }
+  printFavorites();
 };
 
 //FUNCION PARA ELIMINAR TODOS LOS FAVORITOS A LA VEZ
 const buttonRemoveAll = document.querySelector('.js-buttonRemoveAll');
 
 const removeAllFavorites = () => {
-
   localStorage.removeItem('favorite');
   asideFavorite.classList.add('hidden', 'menu');
   mainCards.classList.add('content_cards');
   mainCards.classList.remove('content__cardsFavorite');
 
   favoritesShows = [];
-  console.log(favoritesShows);
 };
 
 buttonRemoveAll.addEventListener('click', removeAllFavorites);
 
 //FUNCION PARA ELIMINAR INDIVIDUALMENTE LOS ELEMENTOS DE LA LISTA DE FAVORITOS
-const removeFavorite = (ev) => {};
+const removeFavorite = (ev) => {
+  const buttonClick = ev.currentTarget;
+  const buttonParentId = parseInt(buttonClick.parentElement.id);
+  const favElementId = favoritesShows.findIndex(
+    (fav) => fav.id === buttonParentId
+  );
+  favoritesShows.splice(favElementId, 1);
+  printFavorites();
+  saveLocalStorage();
+  printFavoritesLS();
+};
 
 const listenersButtonFavorites = () => {
   const buttonsRemove = document.querySelectorAll('.js-buttonRemove');
@@ -178,7 +191,7 @@ const listenersButtonFavorites = () => {
   }
 };
 
-//LocalStorage
+/* LOCALSTORAGE */
 //Guarda datos de favoritos en LS
 const saveLocalStorage = () => {
   localStorage.setItem('favorite', JSON.stringify(favoritesShows));
@@ -191,11 +204,21 @@ const getFromLocalStorage = () => {
     favoritesShows = [];
   }
   printFavoritesLS();
-  listenersButtonFavorites();
 };
 
+//Tecla Intro del teclado para buscar
+
+const inputKey = (ev) => {
+  if (event.keyCode == 13) {
+    listener(ev);
+  }
+};
+
+inputSearch.addEventListener('keyup', inputKey);
+
 //Funciones al inicio
-getFromLocalStorage();
+getFromLocalStorage(); //Trae los datos del LocalStorage al cargar la página
+listenersButtonFavorites();
 
 //Eventos escuchadores
 iconSearch.addEventListener('click', listener);
