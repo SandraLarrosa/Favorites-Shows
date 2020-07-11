@@ -6,6 +6,12 @@ const iconSearch = document.querySelector('.js-search'); //Icon de búsqueda
 const title = document.querySelector('.js-title'); //Titulo Página que lleva al inicio
 const header = document.querySelector('.js-header');
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
+const imgPlaceHolder = 'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
+
+//Array que guarda la búsqueda de las series
+let shows = [];
+//Array que guarda los favoritos
+let favoritesShows = [];
 
 //Función escuchadora del icono search
 const listener = (ev) => {
@@ -27,8 +33,6 @@ const changeHeader = (ev) => {
   header.classList.add('headerInitial');
 };
 
-//Array que guarda la búsqueda de las series
-let shows = [];
 
 //LLamada a la Api
 function searchShow() {
@@ -60,7 +64,7 @@ const printShows = (shows) => {
     if (show.image !== null) {
       mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     } else {
-      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" src="https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
+      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     }
   }
   console.log(shows);
@@ -73,9 +77,9 @@ const printFavorites = () => {
   listFavorite.innerHTML = '';
   for (const favorite of favoritesShows) {
     if (favorite.image !== null) {
-      listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
+      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
     } else {
-      listFavorite.innerHTML += `<li class="favorite__list--card"><img class="favorite__card__img" src="https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
+      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" src="${imgPlaceHolder}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
     }
   }
 };
@@ -90,8 +94,7 @@ const listenerCards = () => {
 };
 
 /* FAVORITOS */
-//Array que guarda los favoritos
-let favoritesShows = [];
+
 
 const asideFavorite = document.querySelector('.js-asideFavorite');
 
@@ -134,7 +137,7 @@ const changeColorCard = (ev) => {
     show.classList.remove('card__favoriteAdd');
   } else {
     show.classList.add('card__favoriteAdd');
-    asideFavorite.classList.remove('hidden', 'menu');
+    asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
   }
@@ -144,11 +147,15 @@ const changeColorCard = (ev) => {
 //Función que pinta los favoritos al principio
 const printFavoritesLS = () => {
   if (favoritesShows.length > 0) {
-    asideFavorite.classList.remove('hidden', 'menu');
+    asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
 
     printFavorites();
+  } else {
+    asideFavorite.classList.add('hidden');
+    mainCards.classList.add('content_cards');
+    mainCards.classList.remove('content__cardsFavorite')
   }
 };
 
@@ -156,7 +163,6 @@ const printFavoritesLS = () => {
 const buttonRemoveAll = document.querySelector('.js-buttonRemoveAll');
 
 const removeAllFavorites = () => {
-
   localStorage.removeItem('favorite');
   asideFavorite.classList.add('hidden', 'menu');
   mainCards.classList.add('content_cards');
@@ -169,7 +175,17 @@ const removeAllFavorites = () => {
 buttonRemoveAll.addEventListener('click', removeAllFavorites);
 
 //FUNCION PARA ELIMINAR INDIVIDUALMENTE LOS ELEMENTOS DE LA LISTA DE FAVORITOS
-const removeFavorite = (ev) => {};
+const removeFavorite = (ev) => {
+  const button = ev.currentTarget;
+  const buttonParentId = button.parentElement.id;
+  const favShow = favoritesShows.find((fav) => fav.id === buttonParentId);
+  const favShowId = favoritesShows.findIndex(
+    (fav) => fav.id === buttonParentId
+  );
+  console.log(favShow);
+  console.log(favShowId);
+
+};
 
 const listenersButtonFavorites = () => {
   const buttonsRemove = document.querySelectorAll('.js-buttonRemove');
@@ -191,12 +207,11 @@ const getFromLocalStorage = () => {
     favoritesShows = [];
   }
   printFavoritesLS();
-  listenersButtonFavorites();
 };
 
 //Funciones al inicio
 getFromLocalStorage();
-
+listenersButtonFavorites();
 //Eventos escuchadores
 iconSearch.addEventListener('click', listener);
 title.addEventListener('click', changeHeader);
