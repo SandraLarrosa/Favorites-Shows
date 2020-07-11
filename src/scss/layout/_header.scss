@@ -3,7 +3,7 @@
 .error {
   color: red;
   font-size: 25px;
-  font-family: 'Cheveuxdange', cursive;
+  font-family: $font-third;
 }
 
 /* Header en la busqueda */
@@ -32,7 +32,7 @@
 .content__title {
   cursor: pointer;
   font-size: 20px;
-  font-family: 'Cheveuxdange', cursive;
+  font-family: $font-third;
   font-weight: bold;
   color: whitesmoke;
   animation: text-focus-in 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
@@ -69,7 +69,7 @@
   height: 28px;
   width: 220px;
   border-radius: 10px;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: $font-primary;
   font-weight: bold;
 }
 
@@ -95,13 +95,12 @@
     text-align: right;
     padding: 10px;
     font-size: 20px;
-    font-family: 'Cheveuxdange', cursive;
-    font-weight: bold;
+    font-family: $font-third;
     color: whitesmoke;
     animation: text-focus-in 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
   
     @media all and (min-width: 768px) {
-      font-size: 44px;
+      font-size: 46px;
     }
 
     @media all and (min-width: 1200px) {
@@ -128,7 +127,7 @@
       height: 28px;
       width: 220px;
       border-radius: 10px;
-      font-family: 'Source Sans Pro', sans-serif;
+      font-family: $font-primary;
       font-weight: bold;
     }
     

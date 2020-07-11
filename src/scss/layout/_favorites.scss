@@ -31,14 +31,14 @@
       margin-top: 30px;
       color: #e79cc2;
       font-size: 14px;
-      font-family: 'Cheveuxdange', cursive;
+      font-family: $font-third;
 
       @media all and (min-width: 768px) {
-        font-size: 18px;
+        font-size: 22px;
       }
 
       @media all and (min-width: 1200px) {
-        font-size: 22px;
+        font-size: 24px;
       }
     }
     & .botton__delete {
@@ -49,20 +49,20 @@
       border: 1px solid #01a9b4;
       border-radius: 20px;
       padding: 5px;
-      font-size: 8px;
-      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 9px;
+      font-family: $font-primary;
       margin-bottom: 15px;
       margin-top: 15px;
       background-color: #01a9b4;
       color: whitesmoke;
 
       @media all and (min-width: 768px) {
-        font-size: 10px;
+        font-size: 11px;
         width: 120px;
       }
 
       @media all and (min-width: 1200px) {
-        font-size: 12px;
+        font-size: 13px;
         width: 150px;
       }
     }
@@ -178,16 +178,17 @@
 
   & .favorite__title__list {
     color: white;
-    font-size: 8px;
+    font-size: 10px;
     padding: 8px;
     word-wrap: break-word;
     width: 152px;
+    font-family: $font-primary;
 
     @media all and (min-width: 768px) {
-      font-size: 12px;
+      font-size: 14px;
     }
     @media all and (min-width: 1200px) {
-      font-size: 14px;
+      font-size: 18px;
     }
   }
 

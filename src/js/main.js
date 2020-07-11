@@ -35,7 +35,7 @@ function searchShow() {
   const valueInput = inputSearch.value;
   if (!valueInput) {
     mainCards.innerHTML =
-      '<h2 class="error">No has introducido ninguna serie :-(</h2>';
+      '<h2 class="error">No has introducido ninguna serie</h2>';
   } else {
     fetch(`http://api.tvmaze.com/search/shows?q=${valueInput}`)
       .then((response) => response.json())
