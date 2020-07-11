@@ -38,7 +38,7 @@ const searchShow = () => {
   const valueInput = inputSearch.value;
   if (!valueInput) {
     mainCards.innerHTML =
-      '<h2 class="error">No has introducido ninguna serie</h2>';
+      '<div class="contain__error"><h2 class="error">¡No has introducido ninguna serie!</h2><p class="text__error">No enfades al gatete y busca una serie para hacerle feliz</p><img class="gif__cat" src="https://media.giphy.com/media/c8NspwwVxwAiA/giphy.gif" alt="gif gatete"/></div>';
   } else {
     conectApi();
   }
