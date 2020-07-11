@@ -5,8 +5,10 @@ const inputSearch = document.querySelector('.js-input'); //Input
 const iconSearch = document.querySelector('.js-search'); //Icon de búsqueda
 const title = document.querySelector('.js-title'); //Titulo Página que lleva al inicio
 const header = document.querySelector('.js-header');
+const asideFavorite = document.querySelector('.js-asideFavorite'); //Aside de los favoritos
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
-const imgPlaceHolder = 'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
+const imgPlaceHolder =
+  'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
 
 //Array que guarda la búsqueda de las series
 let shows = [];
@@ -32,7 +34,6 @@ const changeHeader = (ev) => {
   header.classList.remove('header');
   header.classList.add('headerInitial');
 };
-
 
 //LLamada a la Api
 function searchShow() {
@@ -67,7 +68,6 @@ const printShows = (shows) => {
       mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     }
   }
-  console.log(shows);
   listenerCards();
 };
 
@@ -82,6 +82,8 @@ const printFavorites = () => {
       listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" src="${imgPlaceHolder}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
     }
   }
+  listenersButtonFavorites();
+  /* printShows(shows); */
 };
 
 //LISTENERS CARDS SHOWS
@@ -93,16 +95,12 @@ const listenerCards = () => {
   }
 };
 
-/* FAVORITOS */
-
-
-const asideFavorite = document.querySelector('.js-asideFavorite');
-
 //FUNCION LISTENER DEL BUSCADOR
 const handleFavorites = (ev) => {
   addFavorite(ev);
   changeColorCard(ev);
   printFavorites();
+  listenersButtonFavorites();
 };
 
 //Función que añade a favoritos el elemento seleccionado y lo quita
@@ -116,14 +114,11 @@ const addFavorite = (ev) => {
     for (const show of shows) {
       if (showId === show.id) {
         favoritesShows.push(show);
-        console.log(`Me han añadadido ${show.name}`);
       }
     }
   } else {
     favoritesShows.splice(showElementId, 1);
-    console.log(`Me han eliminado ${show.name}`);
   }
-  console.log(favoritesShows);
   saveLocalStorage();
 };
 
@@ -150,13 +145,12 @@ const printFavoritesLS = () => {
     asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
-
-    printFavorites();
   } else {
     asideFavorite.classList.add('hidden');
     mainCards.classList.add('content_cards');
-    mainCards.classList.remove('content__cardsFavorite')
+    mainCards.classList.remove('content__cardsFavorite');
   }
+  printFavorites();
 };
 
 //FUNCION PARA ELIMINAR TODOS LOS FAVORITOS A LA VEZ
@@ -169,22 +163,21 @@ const removeAllFavorites = () => {
   mainCards.classList.remove('content__cardsFavorite');
 
   favoritesShows = [];
-  console.log(favoritesShows);
 };
 
 buttonRemoveAll.addEventListener('click', removeAllFavorites);
 
 //FUNCION PARA ELIMINAR INDIVIDUALMENTE LOS ELEMENTOS DE LA LISTA DE FAVORITOS
 const removeFavorite = (ev) => {
-  const button = ev.currentTarget;
-  const buttonParentId = button.parentElement.id;
-  const favShow = favoritesShows.find((fav) => fav.id === buttonParentId);
-  const favShowId = favoritesShows.findIndex(
+  const buttonClick = ev.currentTarget;
+  const buttonParentId = parseInt(buttonClick.parentElement.id);
+  const favElementId = favoritesShows.findIndex(
     (fav) => fav.id === buttonParentId
   );
-  console.log(favShow);
-  console.log(favShowId);
-
+  favoritesShows.splice(favElementId, 1);
+  printFavorites();
+  saveLocalStorage();
+  printFavoritesLS();
 };
 
 const listenersButtonFavorites = () => {
@@ -194,7 +187,7 @@ const listenersButtonFavorites = () => {
   }
 };
 
-//LocalStorage
+/* LOCALSTORAGE */
 //Guarda datos de favoritos en LS
 const saveLocalStorage = () => {
   localStorage.setItem('favorite', JSON.stringify(favoritesShows));
@@ -210,8 +203,9 @@ const getFromLocalStorage = () => {
 };
 
 //Funciones al inicio
-getFromLocalStorage();
+getFromLocalStorage(); //Trae los datos del LocalStorage al cargar la página
 listenersButtonFavorites();
+
 //Eventos escuchadores
 iconSearch.addEventListener('click', listener);
 title.addEventListener('click', changeHeader);
