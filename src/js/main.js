@@ -4,6 +4,7 @@
 const inputSearch = document.querySelector('.js-input'); //Input
 const iconSearch = document.querySelector('.js-search'); //Icon de búsqueda
 const title = document.querySelector('.js-title'); //Titulo Página que lleva al inicio
+const contentSearch = document.querySelector('js-contentSearch');
 const header = document.querySelector('.js-header');
 const asideFavorite = document.querySelector('.js-asideFavorite'); //Aside de los favoritos
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
@@ -17,6 +18,7 @@ let favoritesShows = []; //Array que guarda los favoritos
 const listener = (ev) => {
   searchShow();
   changeClassInitial();
+  changeHeaderMenuFavorites();
 };
 
 //Función que cambiar la clase del header
@@ -58,7 +60,7 @@ const conectApi = () => {
     })
     .catch((error) => {
       mainCards.innerHTML =
-      '<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Comprueba tu conexión a internet</p><img class="gif__cat" src="../images/cat-error.gif" alt="gif gatete"/></div>';
+        '<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Comprueba tu conexión a internet</p><img class="gif__cat" src="../images/cat-error.gif" alt="gif gatete"/></div>';
     });
 };
 
@@ -212,6 +214,15 @@ const getFromLocalStorage = () => {
     favoritesShows = [];
   }
   printFavoritesLS();
+};
+
+const changeHeaderMenuFavorites = () => {
+  if (asideFavorite.classList.contains('menuInitial')) {
+    title.classList.remove('content__title');
+    title.classList.add('title__MenuFavorites');
+    contentSearch.classList.remove('content_search');
+    contentSearch.classList.add('search__menuFavorites');
+  }
 };
 
 
