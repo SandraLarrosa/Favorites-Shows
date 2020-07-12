@@ -174,8 +174,11 @@
     height: 467px;
     overflow: hidden;
     margin: -240px 0 -10px -216px;
-  }
 
+    @media all and (max-width: 500px){
+      display: none;
+    }
+  }
   .tv {
     position: absolute;
     left: 0;
@@ -223,7 +226,7 @@
     100% {
       background-position: 160px -60px;
     }
-  } 
+  }
   & .content__title {
     cursor: pointer;
     text-align: center;

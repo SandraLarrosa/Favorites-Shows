@@ -220,7 +220,6 @@ const showMenu = () => {
   showMenuFavorite.classList.add('opacity');
 };
 
-
 //Eventos escuchadores
 iconSearch.addEventListener('click', listener);
 title.addEventListener('click', changeHeader);
@@ -240,3 +239,5 @@ inputSearch.addEventListener('keyup', inputKey);
 //Funciones al inicio
 getFromLocalStorage(); //Trae los datos del LocalStorage al cargar la página
 listenersButtonFavorites();
+
+
