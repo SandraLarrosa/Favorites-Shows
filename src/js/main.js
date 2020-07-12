@@ -135,7 +135,6 @@ const changeColorCard = (ev) => {
   const show = ev.currentTarget;
   const showId = parseInt(show.id);
   const showElement = favoritesShows.find((show) => show.id === showId);
-  debugger;
   if (showElement === undefined) {
     show.classList.remove('card__favoriteAdd');
     show.lastElementChild.firstChild.classList.remove('colorTitle');
