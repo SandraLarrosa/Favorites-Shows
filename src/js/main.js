@@ -174,6 +174,7 @@ const removeAllFavorites = () => {
   mainCards.classList.remove('content__cardsFavorite');
 
   favoritesShows = [];
+  printFavoritesLS();
 };
 
 buttonRemoveAll.addEventListener('click', removeAllFavorites);
