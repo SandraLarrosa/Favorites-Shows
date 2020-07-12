@@ -68,14 +68,17 @@ const printShows = (shows) => {
       (favShow) => favShow.id === show.id
     ); //Devuelve undefined si no está en el Array de Favoritos
     const favColor = showElement === undefined ? '' : 'card__favoriteAdd'; //Ternario para comprobar si la card a pintar está en favoritos
+    const favColorTitle = showElement === undefined ? '' : 'colorTitle';
+
     if (show.image !== null) {
-      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" title="${show.name}" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
+      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" title="${show.name}" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title ${favColorTitle}">${show.name}</h3></div> </article>`;
     } else {
-      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" title="${show.name}" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
+      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" title="${show.name}" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title ${favColorTitle}">${show.name}</h3></div> </article>`;
     }
   }
   listenerCards();
 };
+
 
 //Función que pinta los favoritos en el aside
 const printFavorites = () => {
@@ -133,15 +136,18 @@ const changeColorCard = (ev) => {
   const show = ev.currentTarget;
   const showId = parseInt(show.id);
   const showElement = favoritesShows.find((show) => show.id === showId);
-
+  debugger;
   if (showElement === undefined) {
     show.classList.remove('card__favoriteAdd');
+    show.lastElementChild.firstChild.classList.remove('colorTitle');
   } else {
     show.classList.add('card__favoriteAdd');
+    show.lastElementChild.firstChild.classList.add('colorTitle');
     asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
   }
+
   printFavoritesLS();
 };
 
@@ -239,5 +245,3 @@ inputSearch.addEventListener('keyup', inputKey);
 //Funciones al inicio
 getFromLocalStorage(); //Trae los datos del LocalStorage al cargar la página
 listenersButtonFavorites();
-
-
