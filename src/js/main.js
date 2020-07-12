@@ -7,153 +7,138 @@ const title = document.querySelector('.js-title'); //Titulo Página que lleva al
 const header = document.querySelector('.js-header');
 const asideFavorite = document.querySelector('.js-asideFavorite'); //Aside de los favoritos
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
-const imgPlaceHolder =
-  'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
+const emptyImageURL = 'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
+const emptySearchCatImg = '../images/cat-computer.gif';
+const errorSearchCatImg = '../images/cat-error.gif';
 
-let shows = []; //Array que guarda la búsqueda de las series
-let favoritesShows = []; //Array que guarda los favoritos
+let showsList = []; //Array que guarda la búsqueda de las series
+let favoritesShowsList = []; //Array que guarda los favoritos
 
 //Función escuchadora del icono search
-const listener = (ev) => {
+const initiateSearch = () => {
+  changeHeaderStyle();
   searchShow();
-  changeClassInitial();
 };
 
 //Función que cambiar la clase del header
-const changeClassInitial = () => {
+const changeHeaderStyle = () => {
   header.classList.remove('headerInitial');
   header.classList.add('header');
 };
 
-//Función que cambia la clase del header al inicio
-const changeHeader = (ev) => {
-  inputSearch.value = '';
-  mainCards.innerHTML = '';
-  header.classList.remove('header');
-  header.classList.add('headerInitial');
-};
-
 //Función que comprueba si el input está vacio o tiene texto y llama a la API
 const searchShow = () => {
-  const valueInput = inputSearch.value;
-  if (!valueInput) {
+  const valueSearchInput = inputSearch.value;
+  if (!valueSearchInput) {
     mainCards.innerHTML =
-      '<div class="contain__error"><h2 class="error">¡No has introducido ninguna serie!</h2><p class="text__error">No enfades al gatete y busca una serie para hacerle feliz</p><img class="gif__cat" src="../images/cat-computer.gif" alt="gif gatete"/></div>';
+      `<div class="contain__error"><h2 class="error">¡No has introducido ninguna serie!</h2><p class="text__error">No enfades al gatete y busca una serie para hacerle feliz</p><img class="gif__cat" src="${emptySearchCatImg}" alt="gif gatete"/></div>`;
   } else {
-    conectApi();
+    searchOnApi(valueSearchInput);
   }
 };
 
 //Función que llama a la Api
-const conectApi = () => {
-  const valueInput = inputSearch.value;
-  fetch(`http://api.tvmaze.com/search/shows?q=${valueInput}`)
+const searchOnApi = (searchValue) => {
+  fetch(`http://api.tvmaze.com/search/shows?q=${searchValue}`)
     .then((response) => response.json())
     .then((data) => {
-      shows = data.map((show) => {
-        //Guardamos con Map el campo Show que nos trae la Api
-        return show.show;
-      });
-      printShows(shows);
+      showsList = data.map((showData) => showData.show); //Guardamos con Map el campo Show que nos trae la Api
+      printShows(showsList);
     })
     .catch((error) => {
       mainCards.innerHTML =
-      '<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Comprueba tu conexión a internet</p><img class="gif__cat" src="../images/cat-error.gif" alt="gif gatete"/></div>';
+      `<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Comprueba tu conexión a internet</p><img class="gif__cat" src="${errorSearchCatImg}" alt="gif gatete"/></div>`;
     });
 };
 
 //Función que Pinta los datos en el main
-const printShows = (shows) => {
+const printShows = (showsList) => {
   mainCards.innerHTML = '';
-  for (const show of shows) {
-    const showElement = favoritesShows.find(
+  for (const show of showsList) {
+    const showElement = favoritesShowsList.find(
       (favShow) => favShow.id === show.id
-    ); //Devuelve undefined si no está en el Array de Favoritos
+    );
+
+    //Devuelve undefined si no está en el Array de Favoritos
     //Ternarios para comprobar si la card a pintar está en favoritos
     const favColor = showElement === undefined ? '' : 'card__favoriteAdd';
     const favColorTitle = showElement === undefined ? '' : 'colorTitle';
     if (show.image !== null) {
       mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" title="${show.name}" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title ${favColorTitle}">${show.name}</h3></div> </article>`;
     } else {
-      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" title="${show.name}" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title ${favColorTitle}">${show.name}</h3></div> </article>`;
+      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" title="${show.name}" src=${emptyImageURL} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title ${favColorTitle}">${show.name}</h3></div> </article>`;
     }
   }
-  listenerCards();
-};
-
-//Función que pinta los favoritos en el aside
-const printFavorites = () => {
-  const listFavorite = document.querySelector('.js-listFavorite');
-  listFavorite.innerHTML = '';
-  for (const favorite of favoritesShows) {
-    if (favorite.image !== null) {
-      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" title="${favorite.name}" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove" title="Eliminar serie de favoritos"></i>`;
-    } else {
-      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" title="${favorite.name}" src="${imgPlaceHolder}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove" title="Eliminar serie de favoritos"></i>`;
-    }
-  }
-  listenersButtonFavorites();
-  printShows(shows);
+  addCardsEventListeners();
 };
 
 //LISTENERS CARDS SHOWS
-
-const listenerCards = () => {
-  const cards = document.querySelectorAll('.js-cards');
-  for (const card of cards) {
+const addCardsEventListeners = () => {
+  const cardList = document.querySelectorAll('.js-cards');
+  for (const card of cardList) {
     card.addEventListener('click', handleFavorites);
   }
 };
 
 //FUNCION LISTENER DE LAS CARDS QUE MUESTRAN LAS SERIES
 const handleFavorites = (ev) => {
-  addFavorite(ev);
+  addOrRemoveFavoriteList(ev);
   changeColorCard(ev);
-  printFavorites();
-  listenersButtonFavorites();
+  printFavoritesAsideMenu();
 };
 
 //Función que añade a favoritos el elemento seleccionado y lo quita
-const addFavorite = (ev) => {
-  const show = ev.currentTarget;
-  const showId = parseInt(show.id);
-  const showElement = favoritesShows.find((show) => show.id === showId);
-  const showElementId = favoritesShows.findIndex((show) => show.id === showId);
+const addOrRemoveFavoriteList = (ev) => {
+  const showCard = ev.currentTarget;
+  const showCardId = parseInt(showCard.id);
+  const favoriteShowElement = favoritesShowsList.find((favShow) => favShow.id === showCardId);
 
-  if (showElement === undefined) {
-    for (const show of shows) {
-      if (showId === show.id) {
-        favoritesShows.push(show);
-      }
-    }
+  if (favoriteShowElement === undefined) {
+    const showToFavorite = showsList.find((show) => show.id === showCardId);
+    favoritesShowsList.push(showToFavorite);
   } else {
-    favoritesShows.splice(showElementId, 1);
+    const favoriteShowIndex = favoritesShowsList.findIndex((favShow) => favShow.id === showCardId);
+    favoritesShowsList.splice(favoriteShowIndex, 1);
   }
-  saveLocalStorage();
+
+  saveFavoritesOnLocalStorage();
+};
+
+//Función que pinta los favoritos en el aside
+const printFavoritesCards = () => {
+  const listFavorite = document.querySelector('.js-listFavorite');
+  listFavorite.innerHTML = '';
+  for (const favorite of favoritesShowsList) {
+    if (favorite.image !== null) {
+      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" title="${favorite.name}" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove" title="Eliminar serie de favoritos"></i>`;
+    } else {
+      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" title="${favorite.name}" src="${emptyImageURL}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove" title="Eliminar serie de favoritos"></i>`;
+    }
+  }
+  addListenersToDeleteButtons();
+  printShows(showsList);
 };
 
 //Función que pinta las cards si están en favoritos. Cambiando estilos a la card y al main
 const changeColorCard = (ev) => {
-  const show = ev.currentTarget;
-  const showId = parseInt(show.id);
-  const showElement = favoritesShows.find((show) => show.id === showId);
-  if (showElement === undefined) {
-    show.classList.remove('card__favoriteAdd');
-    show.lastElementChild.firstChild.classList.remove('colorTitle');
+  const showCard = ev.currentTarget;
+  const showCardId = parseInt(showCard.id);
+  const showFavoriteElement = favoritesShowsList.find((favShow) => favShow.id === showCardId);
+  if (showFavoriteElement === undefined) {
+    showCard.classList.remove('card__favoriteAdd');
+    showCard.lastElementChild.firstChild.classList.remove('colorTitle');
   } else {
-    show.classList.add('card__favoriteAdd');
-    show.lastElementChild.firstChild.classList.add('colorTitle');
+    showCard.classList.add('card__favoriteAdd');
+    showCard.lastElementChild.firstChild.classList.add('colorTitle');
     asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
   }
-
-  printFavoritesLS();
 };
 
 //Función que pinta los favoritos al principio
-const printFavoritesLS = () => {
-  if (favoritesShows.length > 0) {
+const printFavoritesAsideMenu = () => {
+  if (favoritesShowsList.length > 0) {
     asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
     mainCards.classList.add('content__cardsFavorite');
@@ -162,7 +147,8 @@ const printFavoritesLS = () => {
     mainCards.classList.add('content_cards');
     mainCards.classList.remove('content__cardsFavorite');
   }
-  printFavorites();
+
+  printFavoritesCards();
 };
 
 //FUNCION PARA ELIMINAR TODOS LOS FAVORITOS A LA VEZ
@@ -174,26 +160,25 @@ const removeAllFavorites = () => {
   mainCards.classList.add('content_cards');
   mainCards.classList.remove('content__cardsFavorite');
 
-  favoritesShows = [];
-  printFavoritesLS();
+  favoritesShowsList = [];
+  printFavoritesAsideMenu();
 };
 
 buttonRemoveAll.addEventListener('click', removeAllFavorites);
 
 //FUNCION PARA ELIMINAR INDIVIDUALMENTE LOS ELEMENTOS DE LA LISTA DE FAVORITOS
 const removeFavorite = (ev) => {
-  const buttonClick = ev.currentTarget;
-  const buttonParentId = parseInt(buttonClick.parentElement.id);
-  const favElementId = favoritesShows.findIndex(
-    (fav) => fav.id === buttonParentId
+  const clickedButton = ev.currentTarget;
+  const clickedButtonParentId = parseInt(clickedButton.parentElement.id);
+  const favElementId = favoritesShowsList.findIndex(
+    (fav) => fav.id === clickedButtonParentId
   );
-  favoritesShows.splice(favElementId, 1);
-  printFavorites();
-  saveLocalStorage();
-  printFavoritesLS();
+  favoritesShowsList.splice(favElementId, 1);
+  saveFavoritesOnLocalStorage();
+  printFavoritesAsideMenu();
 };
 
-const listenersButtonFavorites = () => {
+const addListenersToDeleteButtons = () => {
   const buttonsRemove = document.querySelectorAll('.js-buttonRemove');
   for (const button of buttonsRemove) {
     button.addEventListener('click', removeFavorite);
@@ -202,33 +187,39 @@ const listenersButtonFavorites = () => {
 
 /* LOCALSTORAGE */
 //Guarda datos de favoritos en LS
-const saveLocalStorage = () => {
-  localStorage.setItem('favorite', JSON.stringify(favoritesShows));
+const saveFavoritesOnLocalStorage = () => {
+  localStorage.setItem('favorite', JSON.stringify(favoritesShowsList));
 };
 
 //Función que lee el localStorage y Pinta Los favoritos en Pantalla
-const getFromLocalStorage = () => {
-  favoritesShows = JSON.parse(localStorage.getItem('favorite'));
-  if (favoritesShows === null) {
-    favoritesShows = [];
+const loadFromLocalStorage = () => {
+  favoritesShowsList = JSON.parse(localStorage.getItem('favorite'));
+  if (favoritesShowsList === null) {
+    favoritesShowsList = [];
   }
-  printFavoritesLS();
+  printFavoritesAsideMenu();
 };
-
-
-//Eventos escuchadores
-iconSearch.addEventListener('click', listener);
-title.addEventListener('click', changeHeader);
 
 //Tecla Intro del teclado para buscar
-const inputKey = (ev) => {
-  if (event.keyCode == 13) {
-    listener(ev);
+const searchWithEnter = (ev) => {
+  if (event.keyCode === 13) {
+    initiateSearch(ev);
   }
 };
 
-inputSearch.addEventListener('keyup', inputKey);
+//Función que cambia la clase del header al inicio
+const goHomePage = () => {
+  inputSearch.value = '';
+  mainCards.innerHTML = '';
+  header.classList.remove('header');
+  header.classList.add('headerInitial');
+};
+
+//Escuchadores de eventos
+iconSearch.addEventListener('click', initiateSearch);
+title.addEventListener('click', goHomePage);
+inputSearch.addEventListener('keyup', searchWithEnter);
 
 //Funciones al inicio
-getFromLocalStorage(); //Trae los datos del LocalStorage al cargar la página
-listenersButtonFavorites();
+loadFromLocalStorage();
+addListenersToDeleteButtons();
