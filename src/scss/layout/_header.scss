@@ -78,12 +78,10 @@
 
   @media all and (min-width: 768px) {
     font-size: 44px;
-
   }
 
   @media all and (min-width: 1200px) {
     font-size: 44px;
-
   }
 }
 
@@ -109,7 +107,6 @@
   @media all and (min-width: 768px) {
     width: 260px;
   }
-
 }
 
 .input_search {
@@ -125,7 +122,6 @@
   @media all and (min-width: 768px) {
     width: 220px;
   }
-
 }
 
 .icon__search {
@@ -173,15 +169,15 @@
     overflow: hidden;
     margin: -240px 0 -10px -216px;
 
-    @media all and (max-width: 500px){
+    @media all and (max-width: 500px) {
       display: none;
     }
 
-    @media all and(min-width: 768px){
+    @media all and(min-width: 768px) {
       top: 450px;
     }
 
-    @media all and(min-width: 1200px){
+    @media all and(min-width: 1200px) {
       top: 420px;
     }
   }
@@ -212,7 +208,6 @@
     animation: noiseAnim 0.5s infinite linear alternate;
     opacity: 0.8;
   }
-
 
   @keyframes noiseAnim {
     0% {
@@ -284,9 +279,8 @@
   }
 }
 
-
 /* Si el menu de mis series favoritas está activado */
-.title__MenuFavorites {
+/* .title__MenuFavorites {
   cursor: pointer;
   font-size: 20px;
   font-family: $font-third;
@@ -354,5 +348,4 @@
       width: 220px;
     }
   }
-}
-
+} */

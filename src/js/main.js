@@ -75,7 +75,7 @@ const printShows = (shows) => {
     if (show.image !== null) {
       mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" title="${show.name}" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title ${favColorTitle}">${show.name}</h3></div> </article>`;
     } else {
-      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" title="${show.name}" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title ${favColorTitle}">${show.name}</h3></div> </article>`;
+      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" title="${show.name}" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title ${favColorTitle}">${show.name}</h3></div> </article>`;
     }
   }
   listenerCards();
@@ -156,6 +156,7 @@ const printFavoritesLS = () => {
   if (favoritesShows.length > 0) {
     asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
+    mainCards.classList.add('content__cardsFavorite');
   } else {
     asideFavorite.classList.add('hidden');
     mainCards.classList.add('content_cards');
