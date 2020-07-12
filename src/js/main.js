@@ -9,6 +9,8 @@ const asideFavorite = document.querySelector('.js-asideFavorite'); //Aside de lo
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
 const imgPlaceHolder =
   'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
+const removeMenu = document.querySelector('.js-removeMenu');
+const showMenuFavorite = document.querySelector('.js-showFavorite');
 
 let shows = []; //Array que guarda la búsqueda de las series
 let favoritesShows = []; //Array que guarda los favoritos
@@ -67,9 +69,9 @@ const printShows = (shows) => {
     ); //Devuelve undefined si no está en el Array de Favoritos
     const favColor = showElement === undefined ? '' : 'card__favoriteAdd'; //Ternario para comprobar si la card a pintar está en favoritos
     if (show.image !== null) {
-      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
+      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards ${favColor}"><img class="card__show--img" title="${show.name}" src="${show.image.medium}" alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     } else {
-      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
+      mainCards.innerHTML += `<article id="${show.id}"class="card__show js-cards"><img class="card__show--img" title="${show.name}" src=${imgPlaceHolder} alt="${show.name}"/><div class="content__boxTitle"><h3 class="card__show--title">${show.name}</h3></div> </article>`;
     }
   }
   listenerCards();
@@ -81,13 +83,13 @@ const printFavorites = () => {
   listFavorite.innerHTML = '';
   for (const favorite of favoritesShows) {
     if (favorite.image !== null) {
-      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
+      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" title="${favorite.name}" src="${favorite.image.medium}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove" title="Eliminar serie de favoritos"></i>`;
     } else {
-      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" src="${imgPlaceHolder}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove"></i>`;
+      listFavorite.innerHTML += `<li id="${favorite.id}"class="favorite__list--card"><img class="favorite__card__img" title="${favorite.name}" src="${imgPlaceHolder}" alt="${favorite.name}"/><h4 class="favorite__title__list">${favorite.name}</h4><i class="far fa-times-circle js-buttonRemove" title="Eliminar serie de favoritos"></i>`;
     }
   }
   listenersButtonFavorites();
-  /* printShows(shows); */
+  printShows(shows);
 };
 
 //LISTENERS CARDS SHOWS
@@ -206,6 +208,25 @@ const getFromLocalStorage = () => {
   printFavoritesLS();
 };
 
+//Función que escucha el minus del menú de favoritos y lo oculta
+const removeMenuHidden = () => {
+  asideFavorite.classList.add('hidden');
+  showMenuFavorite.classList.remove('opacity');
+};
+
+//Función que escucha la estrella y muestra el menú de favoritos
+const showMenu = () => {
+  asideFavorite.classList.remove('hidden');
+  showMenuFavorite.classList.add('opacity');
+};
+
+
+//Eventos escuchadores
+iconSearch.addEventListener('click', listener);
+title.addEventListener('click', changeHeader);
+removeMenu.addEventListener('click', removeMenuHidden);
+showMenuFavorite.addEventListener('click', showMenu);
+
 //Tecla Intro del teclado para buscar
 
 const inputKey = (ev) => {
@@ -219,7 +240,3 @@ inputSearch.addEventListener('keyup', inputKey);
 //Funciones al inicio
 getFromLocalStorage(); //Trae los datos del LocalStorage al cargar la página
 listenersButtonFavorites();
-
-//Eventos escuchadores
-iconSearch.addEventListener('click', listener);
-title.addEventListener('click', changeHeader);
