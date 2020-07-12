@@ -35,7 +35,7 @@ const changeHeader = (ev) => {
   header.classList.add('headerInitial');
 };
 
-//LLamada a la Api
+//Función que comprueba si el input está vacio o tiene texto y llama a la API
 const searchShow = () => {
   const valueInput = inputSearch.value;
   if (!valueInput) {
