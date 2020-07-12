@@ -9,8 +9,6 @@ const asideFavorite = document.querySelector('.js-asideFavorite'); //Aside de lo
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
 const imgPlaceHolder =
   'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
-const removeMenu = document.querySelector('.js-removeMenu');
-const showMenuFavorite = document.querySelector('.js-showFavorite');
 
 let shows = []; //Array que guarda la búsqueda de las series
 let favoritesShows = []; //Array que guarda los favoritos
@@ -215,23 +213,10 @@ const getFromLocalStorage = () => {
   printFavoritesLS();
 };
 
-//Función que escucha el minus del menú de favoritos y lo oculta
-const removeMenuHidden = () => {
-  asideFavorite.classList.add('hidden');
-  showMenuFavorite.classList.remove('opacity');
-};
-
-//Función que escucha la estrella y muestra el menú de favoritos
-const showMenu = () => {
-  asideFavorite.classList.remove('hidden');
-  showMenuFavorite.classList.add('opacity');
-};
 
 //Eventos escuchadores
 iconSearch.addEventListener('click', listener);
 title.addEventListener('click', changeHeader);
-removeMenu.addEventListener('click', removeMenuHidden);
-showMenuFavorite.addEventListener('click', showMenu);
 
 //Tecla Intro del teclado para buscar
 const inputKey = (ev) => {

@@ -1,5 +1,5 @@
 /* TITLE Y SEARCH */
-.contain__erro {
+.contain__error {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,6 +54,8 @@
   top: 0;
   position: fixed;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
 
   @media all and (min-width: 768px) {
     height: 160px;
@@ -71,21 +73,17 @@
   font-weight: bold;
   color: whitesmoke;
   text-align: center;
-  position: absolute;
-  top: 0;
-  left: 27%;
+
   animation: text-focus-in 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
 
   @media all and (min-width: 768px) {
     font-size: 44px;
-    left: 25%;
-    top: -18px;
+
   }
 
   @media all and (min-width: 1200px) {
     font-size: 44px;
-    left: 36%;
-    top: -18px;
+
   }
 }
 
@@ -102,24 +100,16 @@
 
 .content_search {
   display: flex;
-  margin: auto;
-  width: 260px;
+  width: 160px;
   border-radius: 10px;
   border: 1px solid rgb(204, 188, 219);
   background-color: rgb(240, 239, 236);
-  position: absolute;
-  top: 56px;
-  left: 17%;
+  align-self: center;
 
   @media all and (min-width: 768px) {
-    left: 34%;
-    top: 80px;
+    width: 260px;
   }
 
-  @media all and (min-width: 1200px) {
-    left: 41%;
-    top: 84px;
-  }
 }
 
 .input_search {
@@ -127,10 +117,15 @@
   background-color: whitesmoke;
   align-items: center;
   height: 28px;
-  width: 220px;
+  width: 120px;
   border-radius: 10px;
   font-family: $font-primary;
   font-weight: bold;
+
+  @media all and (min-width: 768px) {
+    width: 220px;
+  }
+
 }
 
 .icon__search {
@@ -164,6 +159,9 @@
   background-size: cover;
   top: 0;
   position: fixed;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
 
   .tvNoiseContain {
     cursor: pointer;
@@ -177,6 +175,14 @@
 
     @media all and (max-width: 500px){
       display: none;
+    }
+
+    @media all and(min-width: 768px){
+      top: 450px;
+    }
+
+    @media all and(min-width: 1200px){
+      top: 420px;
     }
   }
   .tv {
@@ -235,6 +241,8 @@
     font-family: $font-third;
     color: whitesmoke;
     animation: text-focus-in 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+    margin-top: 30px;
+    margin-bottom: 30px;
 
     @media all and (min-width: 768px) {
       font-size: 46px;
@@ -250,7 +258,6 @@
       border-radius: 10px;
       border: 1px solid rgb(204, 188, 219);
       background-color: rgb(240, 239, 236);
-      margin-left: 120px;
 
       @media all and (min-width: 768px) {
         width: 260px;
@@ -276,3 +283,76 @@
     }
   }
 }
+
+
+/* Si el menu de mis series favoritas está activado */
+.title__MenuFavorites {
+  cursor: pointer;
+  font-size: 20px;
+  font-family: $font-third;
+  font-weight: bold;
+  color: whitesmoke;
+  text-align: end;
+  margin-right: 20px;
+
+  animation: text-focus-in 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+
+  @media all and (min-width: 768px) {
+    font-size: 44px;
+
+  }
+
+  @media all and (min-width: 1200px) {
+    font-size: 44px;
+
+  }
+}
+
+@keyframes text-focus-in {
+  0% {
+    filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+.search__menuFavorites{
+  display: flex;
+  width: 160px;
+  border-radius: 10px;
+  border: 1px solid rgb(204, 188, 219);
+  background-color: rgb(240, 239, 236);
+  align-self: flex-end;
+  margin-right: 20px;
+
+  @media all and (min-width: 768px) {
+
+  }
+
+  @media all and (min-width: 1200px) {
+    width: 260px;
+  }
+
+  &.input_search {
+    border: inherit;
+    background-color: whitesmoke;
+    align-items: center;
+    height: 28px;
+    width: 120px;
+    border-radius: 10px;
+    font-family: $font-primary;
+    font-weight: bold;
+  
+    @media all and (min-width: 768px) {
+  
+    }
+  
+    @media all and (min-width: 1200px) {
+      width: 220px;
+    }
+  }
+}
+
