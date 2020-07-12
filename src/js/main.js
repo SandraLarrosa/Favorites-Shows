@@ -40,7 +40,7 @@ const searchShow = () => {
   const valueInput = inputSearch.value;
   if (!valueInput) {
     mainCards.innerHTML =
-      '<div class="contain__error"><h2 class="error">¡No has introducido ninguna serie!</h2><p class="text__error">No enfades al gatete y busca una serie para hacerle feliz</p><img class="gif__cat" src="https://media.giphy.com/media/c8NspwwVxwAiA/giphy.gif" alt="gif gatete"/></div>';
+      '<div class="contain__error"><h2 class="error">¡No has introducido ninguna serie!</h2><p class="text__error">No enfades al gatete y busca una serie para hacerle feliz</p><img class="gif__cat" src="../images/cat-computer.gif" alt="gif gatete"/></div>';
   } else {
     conectApi();
   }
@@ -57,6 +57,10 @@ const conectApi = () => {
         return show.show;
       });
       printShows(shows);
+    })
+    .catch((error) => {
+      mainCards.innerHTML =
+      '<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Comprueba tu conexión a internet</p><img class="gif__cat" src="../images/cat-error.gif" alt="gif gatete"/></div>';
     });
 };
 
@@ -103,7 +107,7 @@ const listenerCards = () => {
   }
 };
 
-//FUNCION LISTENER DEL BUSCADOR
+//FUNCION LISTENER DE LAS CARDS QUE MUESTRAN LAS SERIES
 const handleFavorites = (ev) => {
   addFavorite(ev);
   changeColorCard(ev);
@@ -154,7 +158,6 @@ const printFavoritesLS = () => {
   if (favoritesShows.length > 0) {
     asideFavorite.classList.remove('hidden');
     mainCards.classList.remove('content_cards');
-    mainCards.classList.add('content__cardsFavorite');
   } else {
     asideFavorite.classList.add('hidden');
     mainCards.classList.add('content_cards');
@@ -231,7 +234,6 @@ removeMenu.addEventListener('click', removeMenuHidden);
 showMenuFavorite.addEventListener('click', showMenu);
 
 //Tecla Intro del teclado para buscar
-
 const inputKey = (ev) => {
   if (event.keyCode == 13) {
     listener(ev);
