@@ -32,6 +32,7 @@ const searchShow = () => {
   const valueSearchInput = inputSearch.value;
   if (!valueSearchInput) {
     mainCards.innerHTML = `<div class="contain__error"><h2 class="error">¡No has introducido ninguna serie!</h2><p class="text__error">No enfades al gatete y busca una serie para hacerle feliz</p><img class="gif__cat" src="${emptySearchCatImg}" alt="gif gatete"/></div>`;
+    showsList = [];
   } else {
     searchOnApi(valueSearchInput);
   }
@@ -51,6 +52,7 @@ const searchOnApi = (searchValue) => {
     })
     .catch((error) => {
       mainCards.innerHTML = `<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Estamos trabajando en ello, no desesperes</p><img class="gif__cat" src="${errorSearchCatImg}" alt="gif gatete"/></div>`;
+      showsList = [];
     });
 };
 
@@ -89,7 +91,7 @@ const handleFavorites = (ev) => {
   printFavoritesAsideMenu();
 };
 
-//Función que añade a favoritos el elemento seleccionado y lo quita
+//Función que añade al array de favoritos la card seleccionada y la quita
 const addOrRemoveFavoriteList = (ev) => {
   const showCard = ev.currentTarget;
   const showCardId = parseInt(showCard.id);
@@ -110,7 +112,7 @@ const addOrRemoveFavoriteList = (ev) => {
   saveFavoritesOnLocalStorage();
 };
 
-//Función que pinta los favoritos en el aside
+//Función que pinta las cards en el menú de favoritos
 const printFavoritesCards = () => {
   const listFavorite = document.querySelector('.js-listFavorite');
   listFavorite.innerHTML = '';
@@ -125,7 +127,7 @@ const printFavoritesCards = () => {
   printShows(showsList);
 };
 
-//Función que pinta las cards si están en favoritos. Cambiando estilos a la card y al main
+//Función que pinta las cards si se seleccionan como favoritas, cambiando estilos a la card y al main
 const changeColorCard = (ev) => {
   const showCard = ev.currentTarget;
   const showCardId = parseInt(showCard.id);
@@ -144,7 +146,7 @@ const changeColorCard = (ev) => {
   }
 };
 
-//Función que pinta los favoritos al principio
+//Función que pinta el menú de favoritos
 const printFavoritesAsideMenu = () => {
   if (favoritesShowsList.length > 0) {
     asideFavorite.classList.remove('hidden');
