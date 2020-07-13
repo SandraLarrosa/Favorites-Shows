@@ -7,9 +7,10 @@ const title = document.querySelector('.js-title'); //Titulo Página que lleva al
 const header = document.querySelector('.js-header');
 const asideFavorite = document.querySelector('.js-asideFavorite'); //Aside de los favoritos
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
-const emptyImageURL = 'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
-const emptySearchCatImg = 'https://media.giphy.com/media/c8NspwwVxwAiA/giphy.gif';
-const errorSearchCatImg = 'https://media.giphy.com/media/xT9IgIc0lryrxvqVGM/giphy.gif';
+const emptyImageURL = '../assets/images/tv-no-signal.jpg';
+const emptySearchCatImg = '../assets/images/cat-computer.gif';
+const errorSearchCatImg = '../assets/images/cat-error.gif';
+const noFindSearchCatImg = '../assets/images/cats-search.gif';
 
 let showsList = []; //Array que guarda la búsqueda de las series
 let favoritesShowsList = []; //Array que guarda los favoritos
@@ -30,8 +31,7 @@ const changeHeaderStyle = () => {
 const searchShow = () => {
   const valueSearchInput = inputSearch.value;
   if (!valueSearchInput) {
-    mainCards.innerHTML =
-      `<div class="contain__error"><h2 class="error">¡No has introducido ninguna serie!</h2><p class="text__error">No enfades al gatete y busca una serie para hacerle feliz</p><img class="gif__cat" src="${emptySearchCatImg}" alt="gif gatete"/></div>`;
+    mainCards.innerHTML = `<div class="contain__error"><h2 class="error">¡No has introducido ninguna serie!</h2><p class="text__error">No enfades al gatete y busca una serie para hacerle feliz</p><img class="gif__cat" src="${emptySearchCatImg}" alt="gif gatete"/></div>`;
   } else {
     searchOnApi(valueSearchInput);
   }
@@ -42,12 +42,15 @@ const searchOnApi = (searchValue) => {
   fetch(`http://api.tvmaze.com/search/shows?q=${searchValue}`)
     .then((response) => response.json())
     .then((data) => {
-      showsList = data.map((showData) => showData.show); //Guardamos con Map el campo Show que nos trae la Api
-      printShows(showsList);
+      if (data.length < 1) {
+        mainCards.innerHTML = `<div class="contain__error"><h2 class="error">Creo que no has introducido un nombre válido</h2><p class="text__error">Prueba otra vez</p><img class="gif__cat" src="${noFindSearchCatImg}" alt="gif gatete"/></div>`;
+      } else {
+        showsList = data.map((showData) => showData.show); //Guardamos con Map el campo Show que nos trae la Api
+        printShows(showsList);
+      }
     })
     .catch((error) => {
-      mainCards.innerHTML =
-      `<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Estamos trabajando en ello, no desesperes</p><img class="gif__cat" src="${errorSearchCatImg}" alt="gif gatete"/></div>`;
+      mainCards.innerHTML = `<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Estamos trabajando en ello, no desesperes</p><img class="gif__cat" src="${errorSearchCatImg}" alt="gif gatete"/></div>`;
     });
 };
 
@@ -57,9 +60,8 @@ const printShows = (showsList) => {
   for (const show of showsList) {
     const showElement = favoritesShowsList.find(
       (favShow) => favShow.id === show.id
-    );
+    ); //Devuelve undefined si no está en el Array de Favoritos
 
-    //Devuelve undefined si no está en el Array de Favoritos
     //Ternarios para comprobar si la card a pintar está en favoritos
     const favColor = showElement === undefined ? '' : 'card__favoriteAdd';
     const favColorTitle = showElement === undefined ? '' : 'colorTitle';
@@ -91,13 +93,17 @@ const handleFavorites = (ev) => {
 const addOrRemoveFavoriteList = (ev) => {
   const showCard = ev.currentTarget;
   const showCardId = parseInt(showCard.id);
-  const favoriteShowElement = favoritesShowsList.find((favShow) => favShow.id === showCardId);
+  const favoriteShowElement = favoritesShowsList.find(
+    (favShow) => favShow.id === showCardId
+  );
 
   if (favoriteShowElement === undefined) {
     const showToFavorite = showsList.find((show) => show.id === showCardId);
     favoritesShowsList.push(showToFavorite);
   } else {
-    const favoriteShowIndex = favoritesShowsList.findIndex((favShow) => favShow.id === showCardId);
+    const favoriteShowIndex = favoritesShowsList.findIndex(
+      (favShow) => favShow.id === showCardId
+    );
     favoritesShowsList.splice(favoriteShowIndex, 1);
   }
 
@@ -123,7 +129,9 @@ const printFavoritesCards = () => {
 const changeColorCard = (ev) => {
   const showCard = ev.currentTarget;
   const showCardId = parseInt(showCard.id);
-  const showFavoriteElement = favoritesShowsList.find((favShow) => favShow.id === showCardId);
+  const showFavoriteElement = favoritesShowsList.find(
+    (favShow) => favShow.id === showCardId
+  );
   if (showFavoriteElement === undefined) {
     showCard.classList.remove('card__favoriteAdd');
     showCard.lastElementChild.firstChild.classList.remove('colorTitle');
