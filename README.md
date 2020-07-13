@@ -1,7 +1,5 @@
 # Evaluación final de Alexandra López Larrosa
 
-![Tv Shows](https://prashantsani.com/Misc/codepen/tv.svg)
-
 ## Buscador de series
 
 El ejercicio consiste en desarrollar una aplicación web de búsqueda de series de TV, que nos permite
