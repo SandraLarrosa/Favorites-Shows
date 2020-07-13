@@ -7,10 +7,10 @@ const title = document.querySelector('.js-title'); //Titulo Página que lleva al
 const header = document.querySelector('.js-header');
 const asideFavorite = document.querySelector('.js-asideFavorite'); //Aside de los favoritos
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
-const emptyImageURL = '../images/tv-no-signal.jpg';
-const emptySearchCatImg = '../images/cat-computer.gif';
-const errorSearchCatImg = '../images/cat-error.gif';
-const noFindSearchCatImg = '../images/cats-search.gif';
+const emptyImageURL = 'assets/images/tv-no-signal.jpg';
+const emptySearchCatImg = 'assets/images/cat-computer.gif';
+const errorSearchCatImg = 'assets/images/cat-error.gif';
+const noFindSearchCatImg = 'assets/images/cats-search.gif';
 
 //Arrays
 let showsList = []; //Array que guarda la búsqueda de las series
