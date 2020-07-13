@@ -110,10 +110,10 @@
 }
 
 .input_search {
-  border: inherit;
+  border: none;
   background-color: whitesmoke;
   align-items: center;
-  height: 28px;
+  height: 29px;
   width: 120px;
   border-radius: 10px;
   font-family: $font-primary;
@@ -123,12 +123,17 @@
     width: 220px;
   }
 }
+.button__search {
+  border: none;
+  width: 33px;
+  height: 29px;
+  cursor: pointer;
+}
 
 .icon__search {
-  width: 26px;
-  height: 29px;
+  width: 90%;
+  height: 27px;
   margin-left: 5px;
-  cursor: pointer;
 }
 
 /* Header Initial */
@@ -278,74 +283,3 @@
     }
   }
 }
-
-/* Si el menu de mis series favoritas está activado */
-/* .title__MenuFavorites {
-  cursor: pointer;
-  font-size: 20px;
-  font-family: $font-third;
-  font-weight: bold;
-  color: whitesmoke;
-  text-align: end;
-  margin-right: 20px;
-
-  animation: text-focus-in 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
-
-  @media all and (min-width: 768px) {
-    font-size: 44px;
-
-  }
-
-  @media all and (min-width: 1200px) {
-    font-size: 44px;
-
-  }
-}
-
-@keyframes text-focus-in {
-  0% {
-    filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    filter: blur(0px);
-    opacity: 1;
-  }
-}
-
-.search__menuFavorites{
-  display: flex;
-  width: 160px;
-  border-radius: 10px;
-  border: 1px solid rgb(204, 188, 219);
-  background-color: rgb(240, 239, 236);
-  align-self: flex-end;
-  margin-right: 20px;
-
-  @media all and (min-width: 768px) {
-
-  }
-
-  @media all and (min-width: 1200px) {
-    width: 260px;
-  }
-
-  &.input_search {
-    border: inherit;
-    background-color: whitesmoke;
-    align-items: center;
-    height: 28px;
-    width: 120px;
-    border-radius: 10px;
-    font-family: $font-primary;
-    font-weight: bold;
-  
-    @media all and (min-width: 768px) {
-  
-    }
-  
-    @media all and (min-width: 1200px) {
-      width: 220px;
-    }
-  }
-} */
