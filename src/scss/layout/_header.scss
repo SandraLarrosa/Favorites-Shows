@@ -118,11 +118,25 @@
   border-radius: 10px;
   font-family: $font-primary;
   font-weight: bold;
+  padding-left: 3px;
 
   @media all and (min-width: 768px) {
     width: 220px;
   }
 }
+.input_search::placeholder {
+  color: rgba(178, 136, 218, 0.808);
+  font-style: italic;
+}
+
+.input_search:focus {
+  outline: none;
+  outline-width: 0;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
 .button__search {
   border: none;
   width: 33px;
@@ -130,6 +144,13 @@
   cursor: pointer;
 }
 
+.button__search:focus {
+  outline: none;
+  outline-width: 0;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
 .icon__search {
   width: 90%;
   height: 27px;
