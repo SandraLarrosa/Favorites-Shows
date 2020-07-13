@@ -8,8 +8,8 @@ const header = document.querySelector('.js-header');
 const asideFavorite = document.querySelector('.js-asideFavorite'); //Aside de los favoritos
 const mainCards = document.querySelector('.js-content'); //Main donde se pintan las tarjetas
 const emptyImageURL = 'https://via.placeholder.com/260x310/ffffff/666666/?text=TVShows';
-const emptySearchCatImg = '../images/cat-computer.gif';
-const errorSearchCatImg = '../images/cat-error.gif';
+const emptySearchCatImg = 'https://media.giphy.com/media/c8NspwwVxwAiA/giphy.gif';
+const errorSearchCatImg = 'https://media.giphy.com/media/xT9IgIc0lryrxvqVGM/giphy.gif';
 
 let showsList = []; //Array que guarda la búsqueda de las series
 let favoritesShowsList = []; //Array que guarda los favoritos
@@ -47,7 +47,7 @@ const searchOnApi = (searchValue) => {
     })
     .catch((error) => {
       mainCards.innerHTML =
-      `<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Comprueba tu conexión a internet</p><img class="gif__cat" src="${errorSearchCatImg}" alt="gif gatete"/></div>`;
+      `<div class="contain__error"><h2 class="error">Algo acaba de fallar...</h2><p class="text__error">Estamos trabajando en ello, no desesperes</p><img class="gif__cat" src="${errorSearchCatImg}" alt="gif gatete"/></div>`;
     });
 };
 
