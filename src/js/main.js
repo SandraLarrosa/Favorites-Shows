@@ -12,6 +12,7 @@ const emptySearchCatImg = '../assets/images/cat-computer.gif';
 const errorSearchCatImg = '../assets/images/cat-error.gif';
 const noFindSearchCatImg = '../assets/images/cats-search.gif';
 
+//Arrays
 let showsList = []; //Array que guarda la búsqueda de las series
 let favoritesShowsList = []; //Array que guarda los favoritos
 
