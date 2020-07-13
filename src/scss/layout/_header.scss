@@ -1,4 +1,6 @@
 /* TITLE Y SEARCH */
+
+/* CONTENT CUANDO SALE UN ERROR */
 .contain__error {
   display: flex;
   flex-direction: column;
@@ -42,6 +44,7 @@
   width: 350px;
   @media all and (min-width: 768px) {
     width: 500px;
+    max-height: 400px;
   }
 }
 

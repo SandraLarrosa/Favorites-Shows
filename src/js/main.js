@@ -44,7 +44,7 @@ const searchOnApi = (searchValue) => {
     .then((response) => response.json())
     .then((data) => {
       if (data.length < 1) {
-        mainCards.innerHTML = `<div class="contain__error"><h2 class="error">Creo que no has introducido un nombre válido</h2><p class="text__error">Prueba otra vez</p><img class="gif__cat" src="${noFindSearchCatImg}" alt="gif gatete"/></div>`;
+        mainCards.innerHTML = `<div class="contain__error"><h2 class="error">No encuentro esa serie, creo que no existe</h2><p class="text__error">Prueba otra vez</p><img class="gif__cat" src="${noFindSearchCatImg}" alt="gif gatete"/></div>`;
       } else {
         showsList = data.map((showData) => showData.show); //Guardamos con Map el campo Show que nos trae la Api
         printShows(showsList);
