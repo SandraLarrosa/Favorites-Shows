@@ -233,3 +233,4 @@ inputSearch.addEventListener('keyup', searchWithEnter);
 //Funciones al inicio
 loadFromLocalStorage();
 addListenersToDeleteButtons();
+
