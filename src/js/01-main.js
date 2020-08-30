@@ -41,7 +41,7 @@ const searchShow = () => {
 
 //Función que llama a la Api
 const searchOnApi = (searchValue) => {
-  fetch(`http://api.tvmaze.com/search/shows?q=${searchValue}`)
+  fetch(`https://api.tvmaze.com/search/shows?q=${searchValue}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.length < 1) {
